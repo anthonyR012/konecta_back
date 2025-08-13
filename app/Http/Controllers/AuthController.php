@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,16 +29,16 @@ class AuthController extends Controller
 
     }
 
-    public function login(RegisterRequest $request){
+    public function login(LoginRequest $request){
         $data = $request->validated();
         $user = User::where('email', $data['email'])->first();
-
+        
         if(!$user || !Hash::check($data['password' ], $user->password)){
             return response()->json(['message' => 'Credenciales inválidas'], 422);
         }
-
         $user->tokens()->delete();
         $token = $user->createToken('api-token')->plainTextToken;
+        
         return response()->json([
             'user'=> $user->only(['id','name','email','role']),
             'token'=> $token,
@@ -45,7 +46,7 @@ class AuthController extends Controller
     }
 
 
-    public function me(RegisterRequest $request){
+    public function me(Request $request){ 
         return response()->json($request->user()->only(['id','name','email','role']));
     }
 
