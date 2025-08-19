@@ -62,7 +62,27 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
+        $data = $request->validate([
+            'flight_id' => ['required', 'exists:flights,id'],
+            'seats' => ['required', 'integer', 'min:1'],
+            'status' => ['required', 'in:reserved,canceled,paid']
+        ]);
+
+        $flight = Flight::findOrFail($data['flight_id']);
+        if ($flight->seats_available < $data['seats']) {
+            return response()->json(['message' => 'No hay suficientes asientos.'], 422);
+        }
+        $ticket = Ticket::findOrFail($id);
+        $ticket->update([
+            'flight_id' => $flight->id,
+            'seats' => $data['seats'],
+            'status' => $data['status']
+        ]);
+        $flight->decrement('seats_available', $data['seats']);
+        $flight->increment('seats_available', $ticket->seats);
+        return response()->json($ticket->load(relations: 'flight'),200);
+
     }
 
     /**
