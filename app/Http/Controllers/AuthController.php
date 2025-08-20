@@ -34,7 +34,7 @@ class AuthController extends Controller
         $user = User::where('email', $data['email'])->first();
         
         if(!$user || !Hash::check($data['password' ], $user->password)){
-            return response()->json(['message' => 'Credenciales inválidas'], 422);
+            return response()->json(['message' => __('auth.invalid_credentials')], 422);
         }
         $user->tokens()->delete();
         $token = $user->createToken('api-token')->plainTextToken;

@@ -2,16 +2,6 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Líneas de lenguaje de validación
-    |--------------------------------------------------------------------------
-    |
-    | Las siguientes líneas contienen los mensajes de error predeterminados usados por
-    | la clase validadora de Laravel. Algunas de estas reglas tienen múltiples versiones
-    | como las reglas de tamaño. Siéntete libre de modificarlos según tus necesidades.
-    |
-    */
 
     'accepted' => 'El campo :attribute debe ser aceptado.',
     'accepted_if' => 'El campo :attribute debe ser aceptado cuando :other sea :value.',
