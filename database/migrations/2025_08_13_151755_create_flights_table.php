@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('seats_total');
             $table->unsignedInteger('seats_available');
             $table->decimal('price',10,2);
+            $table->string('icon');
             $table->timestamps();
         });
     }
