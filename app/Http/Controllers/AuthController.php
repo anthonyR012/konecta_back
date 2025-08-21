@@ -34,7 +34,7 @@ class AuthController extends Controller
         $user = User::where('email', $data['email'])->first();
         
         if(!$user || !Hash::check($data['password' ], $user->password)){
-            return response()->json(['message' => __('auth.invalid_credentials')], 422);
+            return response()->json(['message' => __('auth.invalid_credentials')], status: 422);
         }
         $user->tokens()->delete();
         $token = $user->createToken('api-token')->plainTextToken;
@@ -52,6 +52,6 @@ class AuthController extends Controller
 
     public function logout(Request $request){
         $request->user()->currentAccessToken()->delete();
-        return response()->json(['message'=> 'Sesión cerrada'],201);
+        return response()->json(['message'=> __('validation.session_end')],201);
     }
 }

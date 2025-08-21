@@ -29,7 +29,7 @@ class TicketController extends Controller
         ]);
         $flight = Flight::findOrFail($data['flight_id']);
         if ($flight->seats_available < $data['seats']) {
-            return response()->json(['message' => 'No hay suficientes asientos.'], 422);
+            return response()->json(['message' => __('messages.no_seats_available')], 422);
         }
         $ticket = Ticket::create([
             'user_id' => $request->user()->id,
@@ -71,7 +71,7 @@ class TicketController extends Controller
 
         $flight = Flight::findOrFail($data['flight_id']);
         if ($flight->seats_available < $data['seats']) {
-            return response()->json(['message' => 'No hay suficientes asientos.'], 422);
+            return response()->json(['message' => __('messages.no_seats_available')], 422);
         }
         $ticket = Ticket::findOrFail($id);
         $ticket->update([
